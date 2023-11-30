@@ -43,7 +43,13 @@ public struct ChatTheme {
     }
 
     public struct Customizations {
-        public var shouldShowBubbleDate = true
+        public var shouldShowBubbleDate: Bool
+        
+        public init(
+            shouldShowBubbleDate: Bool = true,
+        ) {
+            self.shouldShowBubbleDate = shouldShowBubbleDate
+        }
     }
     
     public struct Colors {
