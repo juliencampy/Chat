@@ -303,7 +303,7 @@ struct UIList<MessageContent: View>: UIViewRepresentable {
     // MARK: - Coordinator
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(viewModel: viewModel, paginationState: paginationState, isScrolledToBottom: $isScrolledToBottom, isScrolledToTop: $isScrolledToTop, messageBuilder: messageBuilder, avatarSize: avatarSize, tapAvatarClosure: tapAvatarClosure, messageUseMarkdown: messageUseMarkdown, sections: sections, ids: ids, mainBackgroundColor: theme.colors.mainBackground)
+        Coordinator(viewModel: viewModel, paginationState: paginationState, isScrolledToBottom: $isScrolledToBottom, isScrolledToTop: $isScrolledToTop, messageBuilder: messageBuilder, avatarSize: avatarSize, tapAvatarClosure: tapAvatarClosure, messageUseMarkdown: messageUseMarkdown, sections: sections, ids: ids, mainBackgroundColor: theme.colors.mainBackground, shouldShowBubbleDate: theme.customizations.shouldShowConversationDate)
     }
 
     class Coordinator: NSObject, UITableViewDataSource, UITableViewDelegate {
@@ -323,8 +323,10 @@ struct UIList<MessageContent: View>: UIViewRepresentable {
         var ids: [String]
 
         let mainBackgroundColor: Color
+        
+        let shouldShowBubbleDate: Bool
 
-        init(viewModel: ChatViewModel, paginationState: PaginationState, isScrolledToBottom: Binding<Bool>, isScrolledToTop: Binding<Bool>, messageBuilder: MessageBuilderClosure?, avatarSize: CGFloat, tapAvatarClosure: ChatView.TapAvatarClosure?, messageUseMarkdown: Bool, sections: [MessagesSection], ids: [String], mainBackgroundColor: Color) {
+        init(viewModel: ChatViewModel, paginationState: PaginationState, isScrolledToBottom: Binding<Bool>, isScrolledToTop: Binding<Bool>, messageBuilder: MessageBuilderClosure?, avatarSize: CGFloat, tapAvatarClosure: ChatView.TapAvatarClosure?, messageUseMarkdown: Bool, sections: [MessagesSection], ids: [String], mainBackgroundColor: Color, shouldShowBubbleDate: Bool) {
             self.viewModel = viewModel
             self.paginationState = paginationState
             self._isScrolledToBottom = isScrolledToBottom
@@ -336,6 +338,7 @@ struct UIList<MessageContent: View>: UIViewRepresentable {
             self.sections = sections
             self.ids = ids
             self.mainBackgroundColor = mainBackgroundColor
+            self.shouldShowBubbleDate = shouldShowBubbleDate
         }
 
         func numberOfSections(in tableView: UITableView) -> Int {
@@ -348,7 +351,7 @@ struct UIList<MessageContent: View>: UIViewRepresentable {
 
         func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
             
-            guard let theme.customizations.shouldShowBubbleDate else {
+            guard let shouldShowBubbleDate else {
                 return nil
             }
             
