@@ -303,7 +303,7 @@ struct UIList<MessageContent: View>: UIViewRepresentable {
     // MARK: - Coordinator
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(viewModel: viewModel, paginationState: paginationState, isScrolledToBottom: $isScrolledToBottom, isScrolledToTop: $isScrolledToTop, messageBuilder: messageBuilder, avatarSize: avatarSize, tapAvatarClosure: tapAvatarClosure, messageUseMarkdown: messageUseMarkdown, sections: sections, ids: ids, mainBackgroundColor: theme.colors.mainBackground, shouldShowBubbleDate: theme.customizations.shouldShowConversationDate)
+        Coordinator(viewModel: viewModel, paginationState: paginationState, isScrolledToBottom: $isScrolledToBottom, isScrolledToTop: $isScrolledToTop, messageBuilder: messageBuilder, avatarSize: avatarSize, tapAvatarClosure: tapAvatarClosure, messageUseMarkdown: messageUseMarkdown, sections: sections, ids: ids, mainBackgroundColor: theme.colors.mainBackground, shouldShowBubbleDate: theme.customizations.shouldShowConversationDate, enableMessageMenu: theme.customizations.enableMessageMenu)
     }
 
     class Coordinator: NSObject, UITableViewDataSource, UITableViewDelegate {
@@ -326,7 +326,7 @@ struct UIList<MessageContent: View>: UIViewRepresentable {
         
         let shouldShowBubbleDate: Bool
 
-        init(viewModel: ChatViewModel, paginationState: PaginationState, isScrolledToBottom: Binding<Bool>, isScrolledToTop: Binding<Bool>, messageBuilder: MessageBuilderClosure?, avatarSize: CGFloat, tapAvatarClosure: ChatView.TapAvatarClosure?, messageUseMarkdown: Bool, sections: [MessagesSection], ids: [String], mainBackgroundColor: Color, shouldShowBubbleDate: Bool) {
+        init(viewModel: ChatViewModel, paginationState: PaginationState, isScrolledToBottom: Binding<Bool>, isScrolledToTop: Binding<Bool>, messageBuilder: MessageBuilderClosure?, avatarSize: CGFloat, tapAvatarClosure: ChatView.TapAvatarClosure?, messageUseMarkdown: Bool, sections: [MessagesSection], ids: [String], mainBackgroundColor: Color, shouldShowBubbleDate: Bool, enableMessageMenu: Bool) {
             self.viewModel = viewModel
             self.paginationState = paginationState
             self._isScrolledToBottom = isScrolledToBottom
@@ -339,6 +339,7 @@ struct UIList<MessageContent: View>: UIViewRepresentable {
             self.ids = ids
             self.mainBackgroundColor = mainBackgroundColor
             self.shouldShowBubbleDate = shouldShowBubbleDate
+            self.enableMessageMenu = enableMessageMenu
         }
 
         func numberOfSections(in tableView: UITableView) -> Int {
@@ -383,8 +384,10 @@ struct UIList<MessageContent: View>: UIViewRepresentable {
                     .background(MessageMenuPreferenceViewSetter(id: row.id))
                     .rotationEffect(Angle(degrees: 180))
                     .onTapGesture { }
-                    .onLongPressGesture {
-                        self.viewModel.messageMenuRow = row
+                    if enableMessageMenu {
+                        .onLongPressGesture {
+                            self.viewModel.messageMenuRow = row
+                        }
                     }
             }
             .minSize(width: 0, height: 0)

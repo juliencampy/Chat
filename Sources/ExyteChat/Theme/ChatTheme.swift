@@ -45,13 +45,16 @@ public struct ChatTheme {
     public struct Customizations {
         public var shouldShowBubbleDate: Bool
         public var shouldShowConversationDate: Bool
+        public var enableMessageMenu: Bool
         
         public init(
             shouldShowBubbleDate: Bool = true,
-            shouldShowConversationDate: Bool = true
+            shouldShowConversationDate: Bool = true,
+            enableMessageMenu: Bool = true
         ) {
             self.shouldShowBubbleDate = shouldShowBubbleDate
             self.shouldShowConversationDate = shouldShowConversationDate
+            self.enableMessageMenu = enableMessageMenu
         }
     }
     
