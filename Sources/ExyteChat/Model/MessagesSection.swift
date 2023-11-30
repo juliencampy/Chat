@@ -2,17 +2,17 @@
 //  Created by Alex.M on 08.07.2022.
 //
 
-import Foundation
+import SwiftUI
 
 struct MessagesSection: Equatable {
 
+    @Environment(\.chatTheme) private var theme
+    
     let date: Date
     var rows: [MessageRow]
 
     static var formatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMMM d"
-        return formatter
+        return theme.customizations.conversationDateformatter
     }()
 
     init(date: Date, rows: [MessageRow]) {
