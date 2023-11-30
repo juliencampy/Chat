@@ -351,7 +351,7 @@ struct UIList<MessageContent: View>: UIViewRepresentable {
 
         func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
             
-            guard let shouldShowBubbleDate else {
+            guard shouldShowBubbleDate else {
                 return nil
             }
             
