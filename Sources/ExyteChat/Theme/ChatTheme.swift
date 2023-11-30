@@ -32,13 +32,20 @@ public extension View {
 public struct ChatTheme {
     public let colors: ChatTheme.Colors
     public let images: ChatTheme.Images
+    public let customizations: ChatTheme.Customizations
 
     public init(colors: ChatTheme.Colors = .init(),
-                images: ChatTheme.Images = .init()) {
+                images: ChatTheme.Images = .init(),
+                customizations: ChatTheme.Customizations = .init()) {
         self.colors = colors
         self.images = images
+        self.customizations = customizations
     }
 
+    public struct Customizations {
+        public var shouldShowBubbleDate = true
+    }
+    
     public struct Colors {
         public var grayStatus: Color
         public var errorStatus: Color

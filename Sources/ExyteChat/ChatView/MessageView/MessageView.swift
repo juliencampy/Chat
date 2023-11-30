@@ -35,7 +35,7 @@ struct MessageView: View {
     let font = UIFont.systemFont(ofSize: 15)
 
     enum DateArrangment {
-        case hstack, vstack, overlay
+        case hstack, vstack, overlay, none
     }
 
     var additionalMediaInset: CGFloat {
@@ -43,26 +43,31 @@ struct MessageView: View {
     }
 
     var dateArrangment: DateArrangment {
-        let timeWidth = timeSize.width + 10
-        let textPaddings = MessageView.horizontalTextPadding * 2
-        let widthWithoutMedia = UIScreen.main.bounds.width
-        - avatarViewSize.width
-        - statusSize.width
-        - MessageView.horizontalBubblePadding
-        - textPaddings
-
-        let maxWidth = message.attachments.isEmpty ? widthWithoutMedia : MessageView.widthWithMedia - textPaddings
-        let finalWidth = message.text.width(withConstrainedWidth: maxWidth, font: font, messageUseMarkdown: messageUseMarkdown)
-        let lastLineWidth = message.text.lastLineWidth(labelWidth: maxWidth, font: font, messageUseMarkdown: messageUseMarkdown)
-        let numberOfLines = message.text.numberOfLines(labelWidth: maxWidth, font: font, messageUseMarkdown: messageUseMarkdown)
-
-        if numberOfLines == 1, finalWidth + CGFloat(timeWidth) < maxWidth {
-            return .hstack
+        if theme.customizations.shouldShowBubbleDate {
+            let timeWidth = timeSize.width + 10
+            let textPaddings = MessageView.horizontalTextPadding * 2
+            let widthWithoutMedia = UIScreen.main.bounds.width
+            - avatarViewSize.width
+            - statusSize.width
+            - MessageView.horizontalBubblePadding
+            - textPaddings
+            
+            let maxWidth = message.attachments.isEmpty ? widthWithoutMedia : MessageView.widthWithMedia - textPaddings
+            let finalWidth = message.text.width(withConstrainedWidth: maxWidth, font: font, messageUseMarkdown: messageUseMarkdown)
+            let lastLineWidth = message.text.lastLineWidth(labelWidth: maxWidth, font: font, messageUseMarkdown: messageUseMarkdown)
+            let numberOfLines = message.text.numberOfLines(labelWidth: maxWidth, font: font, messageUseMarkdown: messageUseMarkdown)
+            
+            if numberOfLines == 1, finalWidth + CGFloat(timeWidth) < maxWidth {
+                return .hstack
+            }
+            if lastLineWidth + CGFloat(timeWidth) < finalWidth {
+                return .overlay
+            }
+            return .vstack
         }
-        if lastLineWidth + CGFloat(timeWidth) < finalWidth {
-            return .overlay
+        else {
+            return .none
         }
-        return .vstack
     }
 
     var showAvatar: Bool {
@@ -231,6 +236,9 @@ struct MessageView: View {
                         timeView
                             .padding(.vertical, 8)
                     }
+            case .none:
+                messageView
+                    .padding(.vertical, 8)
             }
         }
     }
