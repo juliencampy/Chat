@@ -325,6 +325,7 @@ struct UIList<MessageContent: View>: UIViewRepresentable {
         let mainBackgroundColor: Color
         
         let shouldShowBubbleDate: Bool
+        let enableMessageMenu: Bool
 
         init(viewModel: ChatViewModel, paginationState: PaginationState, isScrolledToBottom: Binding<Bool>, isScrolledToTop: Binding<Bool>, messageBuilder: MessageBuilderClosure?, avatarSize: CGFloat, tapAvatarClosure: ChatView.TapAvatarClosure?, messageUseMarkdown: Bool, sections: [MessagesSection], ids: [String], mainBackgroundColor: Color, shouldShowBubbleDate: Bool, enableMessageMenu: Bool) {
             self.viewModel = viewModel
