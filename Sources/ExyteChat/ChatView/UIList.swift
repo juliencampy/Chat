@@ -385,8 +385,8 @@ struct UIList<MessageContent: View>: UIViewRepresentable {
                     .background(MessageMenuPreferenceViewSetter(id: row.id))
                     .rotationEffect(Angle(degrees: 180))
                     .onTapGesture { }
-                    if enableMessageMenu {
-                        .onLongPressGesture {
+                    .onLongPressGesture {
+                        if enableMessageMenu {
                             self.viewModel.messageMenuRow = row
                         }
                     }
