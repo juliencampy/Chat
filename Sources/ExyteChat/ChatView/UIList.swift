@@ -347,6 +347,11 @@ struct UIList<MessageContent: View>: UIViewRepresentable {
         }
 
         func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+            
+            guard let theme.customizations.shouldShowBubbleDate else {
+                return nil
+            }
+            
             let header = UIHostingController(rootView:
                 Text(sections[section].formattedDate)
                     .font(.system(size: 11))

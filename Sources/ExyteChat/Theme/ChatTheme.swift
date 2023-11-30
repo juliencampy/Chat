@@ -44,14 +44,14 @@ public struct ChatTheme {
 
     public struct Customizations {
         public var shouldShowBubbleDate: Bool
-        public var conversationDateformatter: DateFormatter
+        public var shouldShowConversationDate: Bool
         
         public init(
             shouldShowBubbleDate: Bool = true,
-            conversationDateformatter: DateFormatter = DateFormatter()
+            shouldShowConversationDate: Bool = true
         ) {
             self.shouldShowBubbleDate = shouldShowBubbleDate
-            self.conversationDateformatter = conversationDateformatter
+            self.shouldShowConversationDate = shouldShowConversationDate
         }
     }
     
