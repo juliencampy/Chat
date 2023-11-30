@@ -46,7 +46,7 @@ public struct ChatTheme {
         public var shouldShowBubbleDate: Bool
         
         public init(
-            shouldShowBubbleDate: Bool = true,
+            shouldShowBubbleDate: Bool = true
         ) {
             self.shouldShowBubbleDate = shouldShowBubbleDate
         }
